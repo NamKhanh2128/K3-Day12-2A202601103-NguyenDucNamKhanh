@@ -126,4 +126,4 @@ Ghi lại **một** lỗi bạn gặp khi deploy lên cloud (build fail, health 
 timeout, sai REDIS_URL, app không đọc `$PORT`...): thông báo lỗi là gì, bạn
 tìm ra nguyên nhân bằng cách nào, và sửa ra sao?
 
-> *(Bạn hãy tự triển khai lên Railway/Render và ghi lại lỗi bạn gặp phải ở đây nhé)*
+> Trong quá trình deploy lên Render, ban đầu em copy y nguyên file `.env` lên phần Environment Variables của Render, bao gồm cả dòng `REDIS_URL=redis://localhost:6379/0`. Khi đó Render báo deploy thành công nhưng khi gọi API `/ask` thì app bị văng lỗi `500 Internal Server Error`. Mở tab Logs trên Render ra xem thì thấy thông báo lỗi: `ConnectionError: Error 111 connecting to localhost:6379. Connection refused`. Nguyên nhân là do trên môi trường Cloud, "localhost" trỏ vào chính cái container của app chứ không phải máy tính của em, mà container đó lại không cài Redis. Em đã sửa bằng cách đổi biến môi trường `REDIS_URL` thành `fake://` và deploy lại thì API đã hoạt động bình thường.
